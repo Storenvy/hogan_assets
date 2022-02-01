@@ -4,7 +4,8 @@ module HoganAssets
       next unless app.assets
       HoganAssets::Config.load_yml! if HoganAssets::Config.yml_exists?
       HoganAssets::Config.template_extensions.each do |ext|
-        app.assets.register_engine(".#{ext}", Tilt)
+        Sprockets.register_mime_type "text/x-#{ext}-template", extensions: ".#{ext}"
+        Sprockets.register_transformer "text/x-#{ext}-template", 'application/javascript', Tilt
       end
     end
   end

@@ -13,7 +13,8 @@ module HoganAssets
     require 'sprockets'
     Config.load_yml! if Config.yml_exists?
     Config.template_extensions.each do |ext|
-      Sprockets.register_engine ".#{ext}", Tilt
+      Sprockets.register_mime_type "text/x-#{ext}-template", extensions: ".#{ext}"
+      Sprockets.register_transformer "text/x-#{ext}-template", 'application/javascript', Tilt
     end
   end
 end
